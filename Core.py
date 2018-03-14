@@ -2,18 +2,19 @@
 # @since  2018-03-14
 import subprocess;
 import Commit;
+import datetime;
 class Core:
     def __init__(self,repositoryPath:str):
         self.repositoryPath = repositoryPath;
         self.csvGitLog      = '';
         self.commitGitLog   = [];
     def exportToCSV(self):
-        self.csvGitLog = subprocess.check_output(["git","log",'--pretty=format:%cI,%s']).decode("utf-8");
+        self.csvGitLog = subprocess.check_output(["git","log",'--pretty=format:%ct,%s']).decode("utf-8");
     def createCommitGitLog(self):
         lines = self.csvGitLog.split("\n");
         for line in lines:
             lineArray   = line.split(",");
-            lineCommit  = Commit.Commit(lineArray[1],lineArray[0]);
+            lineCommit  = Commit.Commit(lineArray[1],datetime.datetime.fromtimestamp(int(lineArray[0])));
             self.commitGitLog.append(lineCommit);
     def pipeThroughTranslationAPI(self):
         #This function is a dummy right now

@@ -6,4 +6,5 @@ print("The programm will use \"{0}\" as repository path.".format(gitPath));
 core = Core.Core(gitPath);
 core.exportToCSV();
 core.createCommitGitLog();
-print(core.commitGitLog[1].message);
+for commit in core.commitGitLog:
+    print(type(commit.datetime));
