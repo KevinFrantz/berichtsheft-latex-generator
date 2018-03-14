@@ -1,7 +1,7 @@
 # @author kf
 # @since  2018-03-14
 import subprocess;
-import Commit;
+from elements.Commit import Commit;
 import datetime;
 class Core:
     def __init__(self,repositoryPath:str):
@@ -14,7 +14,7 @@ class Core:
         lines = self.csvGitLog.split("\n");
         for line in lines:
             lineArray   = line.split(",");
-            lineCommit  = Commit.Commit(lineArray[1],datetime.datetime.fromtimestamp(int(lineArray[0])));
+            lineCommit  = Commit(lineArray[1],datetime.datetime.fromtimestamp(int(lineArray[0])));
             self.commitGitLog.append(lineCommit);
     def pipeThroughTranslationAPI(self):
         #This function is a dummy right now
