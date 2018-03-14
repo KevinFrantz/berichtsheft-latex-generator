@@ -1,7 +1,7 @@
 #A day containes multiple commits
 class Day:
     commits = [];
-    datetime;
+    #datetime;
     def __init__(self,datetime):
         self.datetime = datetime;
     def addCommit(self,commit):
@@ -10,7 +10,7 @@ class Day:
 #A week contines multiple days
 class Week:
     days = [];
-    datetime;
+    #datetime;
     def __init__(self,datetime):
         self.datetime = datetime;
     def addDay(self,day):
