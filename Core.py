@@ -11,7 +11,7 @@ class Core:
         self.commitGitLog   = [];
         self.timeStructure  = [];
     def exportToCSV(self):
-        self.csvGitLog = subprocess.check_output(["git","log",'--pretty=format:%ct,%s']).decode("utf-8");
+        self.csvGitLog = subprocess.check_output(["git","log",'--pretty=format:%ct,%s'],cwd=self.repositoryPath).decode("utf-8");
     def createCommitGitLog(self):
         lines = self.csvGitLog.split("\n");
         for line in lines:
