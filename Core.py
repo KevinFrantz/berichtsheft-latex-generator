@@ -21,8 +21,8 @@ class Core:
     def orderTimeStructure(self):
         lastDate    = datetime.datetime.now();
         self.timeStructure = [];
-        day         = Day(datetime);
-        week        = Week(datetime);
+        day         = Day(lastDate);
+        week        = Week(lastDate);
         for commit in self.commitGitLog:
             if int(commit.datetime.strftime('%d')) != int(lastDate.strftime('%d')):
                 day = Day(commit.datetime);
@@ -30,10 +30,19 @@ class Core:
                 self.timeStructure.append(week);
                 week = Week(commit.datetime);
             day.addCommit(commit);
+        if day not in week.days:
             week.addDay(day);
-            lastDate = commit.datetime;
         if week not in self.timeStructure:
             self.timeStructure.append(week);
+        lastDate = commit.datetime;
+    def generateBerichtsheft(self):
+        for week in self.timeStructure:
+            print("Woche {0} vom {1} bis {2}".format(week.getCalenderWeek(),week.getMondayDatetime(),week.getFridayDatetime()));
+            for day in week.days:
+                print("Tag {0}".format('dummy'));
+                for commit in day.commits:
+                    print("- {0}".format(commit.message));
+
     def pipeThroughTranslationAPI(self):
         #This function is a dummy right now
         pass;
