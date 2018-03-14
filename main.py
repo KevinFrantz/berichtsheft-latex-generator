@@ -9,4 +9,3 @@ core.exportToCSV();
 core.createCommitGitLog();
 core.orderTimeStructure();
 core.generateBerichtsheft();
-print(pprint(core.timeStructure[0].days));

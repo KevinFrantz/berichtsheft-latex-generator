@@ -8,6 +8,8 @@ class Day:
         self.datetime = datetime;
     def addCommit(self,commit):
         self.commits.append(commit);
+    def getWeekday(self):
+        return self.datetime.weekday();
 
 #A week contines multiple days
 class Week:

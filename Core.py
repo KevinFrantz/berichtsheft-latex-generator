@@ -39,7 +39,7 @@ class Core:
         for week in self.timeStructure:
             print("Woche {0} vom {1} bis {2}".format(week.getCalenderWeek(),week.getMondayDatetime(),week.getFridayDatetime()));
             for day in week.days:
-                print("Tag {0}".format('dummy'));
+                print("Tag {0}".format(day.getWeekday()));
                 for commit in day.commits:
                     print("- {0}".format(commit.message));
 
