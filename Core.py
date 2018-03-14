@@ -3,7 +3,7 @@
 import subprocess;
 import Commit;
 class Core:
-    def __init__(self,repositoryPath):
+    def __init__(self,repositoryPath:str):
         self.repositoryPath = repositoryPath;
         self.csvGitLog      = '';
         self.commitGitLog   = [];
@@ -15,8 +15,6 @@ class Core:
             lineArray   = line.split(",");
             lineCommit  = Commit.Commit(lineArray[1],lineArray[0]);
             self.commitGitLog.append(lineCommit);
-    def getCSV(self):
-        return self.csvGitLog;
     def pipeThroughTranslationAPI(self):
         #This function is a dummy right now
         pass;
