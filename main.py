@@ -8,4 +8,5 @@ core = Core.Core(gitPath);
 core.exportToCSV();
 core.createCommitGitLog();
 core.orderTimeStructure();
-core.generateBerichtsheft();
+core.printCLIBerichtsheft();
+core.generateLATEXRawFiles();
