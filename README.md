@@ -9,3 +9,9 @@ Dies geschieht in der Konsole mit:
   sudo ./setup.sh
 
 Die setup.sh ist allerdings lediglich für Ubuntu optimiert.
+
+## Bedienung ##
+### Parameterübergabe via Konsole ###
+  python3 cli.py git-repositorypfad git-nutzername vorname nachname
+### CLI Interface ###
+  python3 cli.py
