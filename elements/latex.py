@@ -8,10 +8,16 @@ class Compiler:
     template_folder="templates/LaTeX-Vorlage-Berichtsheft/";
     def __init__(self,core):
         self.timeStructure = core.timeStructure;
+        self.user = core.user
     def generationRoutine(self):
-        self.generateLATEXRawFiles();
-        self.generateMainFile();
-        self.generateLATEXPdfs();
+        self.generateMeta()
+        self.generateLATEXRawFiles()
+        self.generateMainFile()
+        self.generateLATEXPdfs()
+    def generateMeta(self):
+        document = "\\newcommand{{\\Name}}{{{0}}}".format(self.user.fullName)
+        document += "\\newcommand{\\Ausbildungsberuf}{Fachinformatiker für Anwendungsentwicklung}"
+        self.saveTemplates(document,'Meta')
     def generateLATEXRawFiles(self):
         document = ""
         for yearNumber, year in self.timeStructure.years.items():

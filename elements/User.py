@@ -17,3 +17,6 @@ class User:
         self.git_name = git_name
     def setGitPath(self,git_path:str):
         self.git_path =  git_path
+    @property
+    def fullName(self):
+        return self.first_name + " " + self.last_name
