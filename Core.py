@@ -34,19 +34,3 @@ class Core:
     def pipeThroughTranslationAPI(self):
         #This function is a dummy right now
         pass;
-    def generateLATEXRawFiles(self):
-        document = ""
-        for yearNumber, year in self.timeStructure.years.items():
-            document += "\Titelzeile{{Juli}}{{2015}}{{18}}";
-            for weekNumer,week in year.weeks.items():
-                document += '\Monat{';
-                for dayNumber,day in week.days.items():
-                    document += '\Woche{{{0}}}{{'.format(dayNumber);
-                    for commit in day.commits:
-                        document += "{0}\n".format(commit.message);
-                    document +='}';
-                document += '}';
-            document += str("\\Unterschrift");
-            print(document);
-    def generateLATEXPdfs(self):
-        pass;
