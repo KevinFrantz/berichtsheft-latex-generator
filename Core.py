@@ -23,8 +23,11 @@ class Core:
         print("Initialize LaTeX Compiler...")
         compiler = Compiler(self)
         print("Start compiling routine...")
-        compiler.generationRoutine()
-        print("The compiling process finished :) ")
+        try:
+            compiler.generationRoutine()
+        except subprocess.CalledProcessError:
+            print("\nATTENTION: The compiler returned a non-zero exit status.\nMay this is a problem ¯\_(ツ)_/¯\n\n")
+        print("The compiling process finished •ᴗ• ")
     def exportToCSV(self):
         self.csvGitLog = subprocess.check_output(["git","log",'--pretty=format:%ct,%s'],cwd=self.user.git_path).decode("utf-8");
     def createCommitList(self):
