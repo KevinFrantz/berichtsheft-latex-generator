@@ -1,3 +1,3 @@
 [submodule "templates/LaTeX-Vorlage-Berichtsheft"]
 	path = templates/LaTeX-Vorlage-Berichtsheft
-	url = https://github.com/KevinFrantz/LaTeX-Vorlage-Berichtsheft
+	url = git@github.com:KevinFrantz/LaTeX-Vorlage-Berichtsheft.git
