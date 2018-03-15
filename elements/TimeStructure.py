@@ -13,6 +13,7 @@ class TimeStructureElement(ABC):
 class Day(TimeStructureElement):
     commits = [];
     def addCommit(self,commit):
+        print("Add commit '{0}' to weekday {1}...".format(commit.message,self.getWeekday()));
         self.commits.append(commit);
     def getWeekday(self):
         return self.datetime.weekday();
@@ -21,6 +22,7 @@ class Day(TimeStructureElement):
 class Week(TimeStructureElement):
     days = {};
     def addCommit(self,commit):
+        print("Add commit '{0}' to week {1}...".format(commit.message,self.getCalenderWeek()));
         dayNumber = commit.datetime.weekday();
         if dayNumber not in self.days:
             self.days[dayNumber] = Day(commit.datetime);
@@ -37,6 +39,7 @@ class Week(TimeStructureElement):
 class Year(TimeStructureElement):
     weeks = {};
     def addCommit(self,commit):
+        print("Add commit '{0}' to  year {1}...".format(commit.message,self.getYear()));
         weeknumber = commit.datetime.strftime('%W');
         if weeknumber not in self.weeks:
             self.weeks[weeknumber] = Week(commit.datetime);
@@ -48,6 +51,7 @@ class Year(TimeStructureElement):
 class TimeStructure:
     years = {};
     def addCommit(self,commit):
+        print("Add commit '{0}' to timeStructure...".format(commit.message));
         yearNumber = commit.datetime.strftime('%Y');
         if yearNumber not in self.years:
             self.years[yearNumber] = Year(commit.datetime);

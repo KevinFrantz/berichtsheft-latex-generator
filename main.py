@@ -10,4 +10,5 @@ core.createCommitGitLog();
 core.orderTimeStructure();
 #pprint(core.timeStructure[0].days);
 #pprint(core.timeStructure[0].days);
-core.generateBerichtsheft();
+#core.generateBerichtsheft();
+pprint(core.timeStructure.years['2018'].weeks['11'].days[3].commits);

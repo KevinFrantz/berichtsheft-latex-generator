@@ -19,7 +19,7 @@ class Core:
             lineCommit  = Commit(lineArray[1],datetime.datetime.fromtimestamp(int(lineArray[0])));
             self.commitGitLog.append(lineCommit);
     def orderTimeStructure(self):
-        print(self.commitGitLog);
+        print("Iterate over commit list...");
         for commit in self.commitGitLog:
             self.timeStructure.addCommit(commit);
     def generateBerichtsheft(self):
