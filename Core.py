@@ -2,14 +2,14 @@
 # @since  2018-03-14
 import subprocess;
 from elements.Commit import Commit;
-from elements.TimeStructure import Day,Week;
+from elements.TimeStructure import TimeStructure;
 import datetime;
 class Core:
     def __init__(self,repositoryPath:str):
         self.repositoryPath = repositoryPath;
         self.csvGitLog      = '';
         self.commitGitLog   = [];
-        self.timeStructure  = [];
+        self.timeStructure  = TimeStructure();
     def exportToCSV(self):
         self.csvGitLog = subprocess.check_output(["git","log",'--pretty=format:%ct,%s'],cwd=self.repositoryPath).decode("utf-8");
     def createCommitGitLog(self):
@@ -19,29 +19,18 @@ class Core:
             lineCommit  = Commit(lineArray[1],datetime.datetime.fromtimestamp(int(lineArray[0])));
             self.commitGitLog.append(lineCommit);
     def orderTimeStructure(self):
-        lastDate    = datetime.datetime.now();
-        self.timeStructure = [];
-        day         = Day(lastDate);
-        week        = Week(lastDate);
+        print(self.commitGitLog);
         for commit in self.commitGitLog:
-            if int(commit.datetime.strftime('%d')) != int(lastDate.strftime('%d')):
-                day = Day(commit.datetime);
-            if int(commit.datetime.strftime('%W')) != int(lastDate.strftime('%W')):
-                self.timeStructure.append(week);
-                week = Week(commit.datetime);
-            day.addCommit(commit);
-        if day not in week.days:
-            week.addDay(day);
-        if week not in self.timeStructure:
-            self.timeStructure.append(week);
-        lastDate = commit.datetime;
+            self.timeStructure.addCommit(commit);
     def generateBerichtsheft(self):
-        for week in self.timeStructure:
-            print("Woche {0} vom {1} bis {2}".format(week.getCalenderWeek(),week.getMondayDatetime(),week.getFridayDatetime()));
-            for day in week.days:
-                print("Tag {0}".format(day.getWeekday()));
-                for commit in day.commits:
-                    print("- {0}".format(commit.message));
+        for yearNumber, year in self.timeStructure.years.items():
+            print("Jahr {0} ".format(year.getYear()));
+            for weekNumer,week in year.weeks.items():
+                print("Woche {0} vom {1} bis {2}".format(week.getCalenderWeek(),week.getMondayDatetime(),week.getFridayDatetime()));
+                for dayNumber,day in week.days.items():
+                    print("Tag {0}".format(day.getWeekday()));
+                    for commit in day.commits:
+                        print("- {0}".format(commit.message));
 
     def pipeThroughTranslationAPI(self):
         #This function is a dummy right now
