@@ -17,9 +17,9 @@ class Compiler:
         for yearNumber, year in self.timeStructure.years.items():
             document += "\Titelzeile{{Juli}}{{{0}}}{{18}}".format(yearNumber);
             for weekNumer,week in year.weeks.items():
-                document += '\Monat{';
+                document += '\Woche{';
                 for dayNumber,day in week.days.items():
-                    document += '\Woche{{{0}}}{{'.format(dayNumber);
+                    document += '\Tag{{{0}}}{{'.format(dayNumber);
                     for commit in day.commits:
                         document += "{0}\n".format(commit.message);
                     document +='}';
