@@ -1,4 +1,5 @@
 import subprocess;
+import re;
 class Compiler:
     '''
     This compiler translates the core to LaTeX
@@ -30,7 +31,7 @@ class Compiler:
                 for dayNumber,day in week.days.items():
                     document += '\Tag{{{0}}}{{'.format(dayNumber);
                     for commit in day.commits:
-                        document += "{0}\n".format(commit.message);
+                        document += "{0}\n".format(re.sub(r'[^\w]', ' ', commit.message));
                     document +='}';
                 document += '}';
             document += str("\\Unterschrift");
