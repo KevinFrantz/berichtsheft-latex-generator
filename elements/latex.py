@@ -14,9 +14,12 @@ class Compiler:
         self.generateLATEXRawFiles()
         self.generateMainFile()
         self.generateLATEXPdfs()
+    def newCommand(self,name,content):
+        return "\\newcommand{{\\{0}}}{{{1}}}".format(name,content)
     def generateMeta(self):
-        document = "\\newcommand{{\\Name}}{{{0}}}".format(self.user.fullName)
-        document += "\\newcommand{\\Ausbildungsberuf}{Fachinformatiker für Anwendungsentwicklung}"
+        document = self.newCommand('Name',self.user.fullName);
+        document += self.newCommand('Ausbildungsberuf','Fachinformatiker für Anwendungsentwicklung');
+        document += self.newCommand('Firma',self.user.firma)
         self.saveTemplates(document,'Meta')
     def generateLATEXRawFiles(self):
         document = ""
