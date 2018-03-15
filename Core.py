@@ -1,28 +1,42 @@
 # @author kf
 # @since  2018-03-14
 import subprocess;
+from elements.latex import Compiler;
 from elements.Commit import Commit;
 from elements.TimeStructure import TimeStructure;
 import datetime;
 class Core:
-    def __init__(self,repositoryPath:str):
-        self.repositoryPath = repositoryPath;
-        self.csvGitLog      = '';
-        self.commitGitLog   = [];
-        self.timeStructure  = TimeStructure();
+    def __init__(self,user):
+        self.user           = user
+        self.csvGitLog      = ''
+        self.commit_list   = []
+        self.timeStructure  = TimeStructure()
+    def routine(self):
+        print("Export commits to CSV...")
+        self.exportToCSV()
+        print("Transfers the CSV to a commit list...")
+        self.createCommitList()
+        print("Creates the commit time structure... ")
+        self.orderTimeStructure()
+        print("\n\n\n Commits Time Structure:\n\n")
+        self.printPreview()
+        print("Initialize LaTeX Compiler...")
+        compiler = Compiler(self)
+        print("Start compiling routine...")
+        compiler.generationRoutine()
+        print("The compiling process finished :) ")
     def exportToCSV(self):
-        self.csvGitLog = subprocess.check_output(["git","log",'--pretty=format:%ct,%s'],cwd=self.repositoryPath).decode("utf-8");
-    def createCommitGitLog(self):
+        self.csvGitLog = subprocess.check_output(["git","log",'--pretty=format:%ct,%s'],cwd=self.user.git_path).decode("utf-8");
+    def createCommitList(self):
         lines = self.csvGitLog.split("\n");
         for line in lines:
             lineArray   = line.split(",");
             lineCommit  = Commit(lineArray[1],datetime.datetime.fromtimestamp(int(lineArray[0])));
-            self.commitGitLog.append(lineCommit);
+            self.commit_list.append(lineCommit)
     def orderTimeStructure(self):
-        print("Iterate over commit list...");
-        for commit in self.commitGitLog:
+        for commit in self.commit_list:
             self.timeStructure.addCommit(commit);
-    def printCLIBerichtsheft(self):
+    def printPreview(self):
         for yearNumber, year in self.timeStructure.years.items():
             print("Jahr {0} ".format(year.getYear()));
             for weekNumer,week in year.weeks.items():
