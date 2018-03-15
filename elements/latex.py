@@ -25,16 +25,18 @@ class Compiler:
     def generateLATEXRawFiles(self):
         document = ""
         for yearNumber, year in self.timeStructure.years.items():
-            document += "\Titelzeile{{Juli}}{{{0}}}{{18}}".format(yearNumber);
             for weekNumer,week in year.weeks.items():
+                document += "\Titelzeile{{Juli}}{{{0}}}{{18}}".format(yearNumber);
                 document += '\Woche{';
                 for dayNumber,day in week.days.items():
-                    document += '\Tag{{{0}}}{{'.format(dayNumber);
+                    document += '\Tag{{{0}}}{{'.format(dayNumber)
+                    document += '\\begin{itemize}'
                     for commit in day.commits:
-                        document += "{0}\n".format(re.sub(r'[^\w]', ' ', commit.message));
+                        document += "\\item {0}\n".format(re.sub(r'[^\w]', ' ', commit.message));
+                    document += '\\end{itemize}'
                     document +='}';
                 document += '}';
-            document += str("\\Unterschrift");
+                document += str("\\Unterschrift");
             self.saveTemplates(document,"Berichte/" + yearNumber);
     def generateMainFile(self):
         document = '\documentclass[ngerman]{scrreprt}'

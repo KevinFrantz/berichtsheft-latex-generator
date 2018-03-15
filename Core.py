@@ -1,10 +1,11 @@
 # @author kf
 # @since  2018-03-14
-import subprocess;
-from elements.latex import Compiler;
-from elements.Commit import Commit;
-from elements.TimeStructure import TimeStructure;
-import datetime;
+import subprocess
+from elements.latex import Compiler
+from elements.Commit import Commit
+from elements.TimeStructure import TimeStructure
+import datetime
+import goslate
 class Core:
     def __init__(self,user):
         self.user           = user
@@ -16,6 +17,8 @@ class Core:
         self.exportToCSV()
         print("Transfers the CSV to a commit list...")
         self.createCommitList()
+        print("Translates commits...")
+        self.pipeThroughTranslationAPI();
         print("Creates the commit time structure... ")
         self.orderTimeStructure()
         print("\n\n\n Commits Time Structure:\n\n")
@@ -49,5 +52,6 @@ class Core:
                     for commit in day.commits:
                         print("- {0}".format(commit.message));
     def pipeThroughTranslationAPI(self):
-        #This function is a dummy right now
-        pass;
+        gs = goslate.Goslate()
+        for commit in self.commit_list:
+            commit.message = gs.translate(commit.message, 'de')
