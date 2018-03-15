@@ -11,7 +11,9 @@ class TimeStructureElement(ABC):
 
 #A day containes multiple commits
 class Day(TimeStructureElement):
-    commits = [];
+    def __init__(self,datetime):
+        self.commits = [];
+        super().__init__(datetime);
     def addCommit(self,commit):
         print("Add commit '{0}' to weekday {1}...".format(commit.message,self.getWeekday()));
         self.commits.append(commit);
@@ -20,7 +22,9 @@ class Day(TimeStructureElement):
 
 #A week contines multiple days
 class Week(TimeStructureElement):
-    days = {};
+    def __init__(self,datetime):
+        self.days = {};
+        super().__init__(datetime);
     def addCommit(self,commit):
         print("Add commit '{0}' to week {1}...".format(commit.message,self.getCalenderWeek()));
         dayNumber = commit.datetime.weekday();
@@ -37,7 +41,9 @@ class Week(TimeStructureElement):
 
 #A year containes out of different weeks
 class Year(TimeStructureElement):
-    weeks = {};
+    def __init__(self,datetime):
+        self.weeks = {};
+        super().__init__(datetime);
     def addCommit(self,commit):
         print("Add commit '{0}' to  year {1}...".format(commit.message,self.getYear()));
         weeknumber = commit.datetime.strftime('%W');
@@ -49,7 +55,8 @@ class Year(TimeStructureElement):
 
 #This class represents the time structure of the commits:
 class TimeStructure:
-    years = {};
+    def __init__(self):
+        self.years = {};
     def addCommit(self,commit):
         print("Add commit '{0}' to timeStructure...".format(commit.message));
         yearNumber = commit.datetime.strftime('%Y');
