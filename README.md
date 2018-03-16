@@ -15,3 +15,6 @@ Die setup.sh ist allerdings lediglich für Ubuntu optimiert.
   python3 cli.py git-repositorypfad git-nutzername vorname nachname
 ### CLI Interface ###
   python3 cli.py
+
+## Lizens ##
+<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />Dieses Werk von [Kevin Frantz](http://kevin-frantz.de/) ist lizenziert unter einer <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Namensnennung-Nicht kommerziell 4.0 International Lizenz</a>.
