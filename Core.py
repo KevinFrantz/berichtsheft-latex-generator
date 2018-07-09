@@ -5,7 +5,7 @@ from elements.latex import Compiler
 from elements.Commit import Commit
 from elements.TimeStructure import TimeStructure
 import datetime
-import goslate
+from googletrans import Translator
 class Core:
     def __init__(self,user):
         self.user           = user
@@ -52,6 +52,8 @@ class Core:
                     for commit in day.commits:
                         print("- {0}".format(commit.message));
     def pipeThroughTranslationAPI(self):
-        gs = goslate.Goslate()
         for commit in self.commit_list:
-            commit.message = gs.translate(commit.message, 'de')
+            print("Commit \"{0}\" gets translated...".format(commit.message))
+            translation = Translator()
+            translation = translation.translate(commit.message, dest=self.user.language,src='en')
+            commit.message = translation.text
