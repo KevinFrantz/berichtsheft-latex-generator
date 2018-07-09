@@ -14,6 +14,9 @@ class TimeStructureElement(ABC):
     #@abstractmethod
     #def getAllUnaddedCommits(self):
     #    pass
+    @abstractmethod
+    def sort(self):
+        pass
 #A day containes multiple commits
 class Day(TimeStructureElement):
     def __init__(self,datetime):
@@ -38,7 +41,8 @@ class Day(TimeStructureElement):
             5:'Saturday',
             6:'Sunday'
         }[self.getWeekday()]
-
+    def sort(self):
+        pass
 #A week contines multiple days
 class Week(TimeStructureElement):
     def __init__(self,datetime):
@@ -53,10 +57,15 @@ class Week(TimeStructureElement):
     def getFridayDatetime(self):
         return (self.datetime - timedelta(days=(self.datetime.weekday()-6))).strftime('%Y-%m-%d');
     def getMondayDatetime(self):
-        #print(self.datetime);
         return (self.datetime - timedelta(days=self.datetime.weekday())).strftime('%Y-%m-%d');
     def getCalenderWeek(self):
         return self.datetime.strftime('%W');
+    def sort(self):
+        tmp_dictionary={}
+        for key in sorted(self.days.keys()):
+            tmp_dictionary[key] = self.days[key]
+            tmp_dictionary[key].sort()
+        self.days = tmp_dictionary;
 
 #A year containes out of different weeks
 class Year(TimeStructureElement):
@@ -71,6 +80,12 @@ class Year(TimeStructureElement):
         self.weeks[weeknumber].addCommit(commit);
     def getYear(self):
         return self.datetime.strftime('%Y');
+    def sort(self):
+        tmp_dictionary={}
+        for key in sorted(self.weeks.keys()):
+            tmp_dictionary[key] = self.weeks[key]
+            tmp_dictionary[key].sort()
+        self.weeks = tmp_dictionary;
 
 #This class represents the time structure of the commits:
 class TimeStructure:
@@ -82,3 +97,9 @@ class TimeStructure:
         if yearNumber not in self.years:
             self.years[yearNumber] = Year(commit.datetime);
         self.years[yearNumber].addCommit(commit);
+    def sort(self):
+        tmp_dictionary={}
+        for key in sorted(self.years.keys()):
+            tmp_dictionary[key] = self.years[key]
+            tmp_dictionary[key].sort()
+        self.years = tmp_dictionary;

@@ -18,7 +18,7 @@ class Core:
         print("Transfers the CSV to a commit list...")
         self.createCommitList()
         print("Translates commits...")
-        self.pipeThroughTranslationAPI();
+        #self.pipeThroughTranslationAPI();
         print("Creates the commit time structure... ")
         self.orderTimeStructure()
         print("\n\n\n Commits Time Structure:\n\n")
@@ -32,7 +32,7 @@ class Core:
             print("\nATTENTION: The compiler returned a non-zero exit status.\nMay this is a problem ¯\_(ツ)_/¯\n\n")
         print("The compiling process finished •ᴗ• ")
     def exportToCSV(self):
-        self.csvGitLog = subprocess.check_output(["git","log",'--pretty=format:%ct,%s'],cwd=self.user.git_path).decode("utf-8");
+        self.csvGitLog = subprocess.check_output(["git","log",'--pretty=format:%ct,%s','--author={0}'.format(self.user.git_name)],cwd=self.user.git_path).decode("utf-8");
     def createCommitList(self):
         lines = self.csvGitLog.split("\n");
         for line in lines:
@@ -42,6 +42,7 @@ class Core:
     def orderTimeStructure(self):
         for commit in self.commit_list:
             self.timeStructure.addCommit(commit);
+        self.timeStructure.sort()
     def printPreview(self):
         for yearNumber, year in self.timeStructure.years.items():
             print("Jahr {0} ".format(year.getYear()));
