@@ -4,21 +4,40 @@ from abc import ABC, abstractmethod
 class TimeStructureElement(ABC):
     def __init__(self,datetime):
         self.datetime = datetime;
+        #self.unadded_commits = []
     @abstractmethod
     def addCommit(self,commit):
         #This method is responsible
         pass
-
+    #def addUnaddedCommit(self,commit):
+    #    self.unadded_commits.append(commit)
+    #@abstractmethod
+    #def getAllUnaddedCommits(self):
+    #    pass
 #A day containes multiple commits
 class Day(TimeStructureElement):
     def __init__(self,datetime):
         self.commits = [];
         super().__init__(datetime);
     def addCommit(self,commit):
-        print("Add commit '{0}' to weekday {1}...".format(commit.message,self.getWeekday()));
-        self.commits.append(commit);
+        if len(self.commits) < 5:
+            print("Add commit '{0}' to weekday {1}...".format(commit.message,self.getWeekday()));
+            self.commits.append(commit)
+        else:
+            print("Commit '{0}' was not added to weekday {1} because the day containes allready more then 5 commits!".format(commit.message,self.getWeekday()));
+            #self.addUnaddedCommit(commit)
     def getWeekday(self):
         return self.datetime.weekday();
+    def getWeekdayString(self):
+        return {
+            0:'Monday',
+            1:'Thuesday',
+            2:'Wednesday',
+            3:'Thursday',
+            4:'Frieday',
+            5:'Saturday',
+            6:'Sunday'
+        }[self.getWeekday()]
 
 #A week contines multiple days
 class Week(TimeStructureElement):

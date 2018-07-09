@@ -24,12 +24,13 @@ class Compiler:
         self.saveTemplates(document,'Meta')
     def generateLATEXRawFiles(self):
         document = ""
+        week_counter=0
         for yearNumber, year in self.timeStructure.years.items():
             for weekNumer,week in year.weeks.items():
-                document += "\Titelzeile{{Juli}}{{{0}}}{{18}}".format(yearNumber);
+                document += "\Titelzeile{{Juli}}{{{0}}}{{{1}}}".format(yearNumber,week_counter);
                 document += '\Woche{';
                 for dayNumber,day in week.days.items():
-                    document += '\Tag{{{0}}}{{'.format(dayNumber)
+                    document += '\Tag{{{0}}}{{'.format(day.getWeekdayString())
                     document += '\\begin{itemize}'
                     for commit in day.commits:
                         document += "\\item {0}\n".format(re.sub(r'[^\w]', ' ', commit.message));
@@ -37,6 +38,7 @@ class Compiler:
                     document +='}';
                 document += '}';
                 document += str("\\Unterschrift");
+                week_counter = week_counter + 1
             self.saveTemplates(document,"Berichte/" + yearNumber);
     def generateMainFile(self):
         document = '\documentclass[ngerman]{scrreprt}'
