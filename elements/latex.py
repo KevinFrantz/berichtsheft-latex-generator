@@ -33,7 +33,7 @@ class Compiler:
                     document += '\Tag{{{0}}}{{'.format(day.getWeekdayString())
                     document += '\\begin{itemize}'
                     for commit in day.commits:
-                        document += "\\item {0}\n".format(re.sub(r'[^\w]', ' ', commit.message));
+                        document += "\\item {0}\n".format(self.escape(commit.message));
                     document += '\\end{itemize}'
                     document +='}';
                 document += '}';
@@ -58,3 +58,22 @@ class Compiler:
         file.close();
     def generateLATEXPdfs(self):
         print(subprocess.check_output(["texliveonfly","Berichtsheft.tex"],cwd=self.template_folder).decode("utf-8"));
+    def escape(self,text):
+        characters = {
+            r'[^\w]': ' ',
+            #'&': r'\&',
+            #'%': r'\%',
+            #'$': r'\$',
+            r'\#':'\\#',
+            r'\_':'\_',
+            #'{': r'\{',
+            #'}': r'\}',
+            #'~': r'\textasciitilde{}',
+            #'^': r'\^{}',
+            #'\\': r'\textbackslash{}',
+            #'<': r'\textless{}',
+            #'>': r'\textgreater{}',
+        }
+        for character in characters.keys():
+            text = re.sub(character,characters[character],text)
+        return text

@@ -10,7 +10,7 @@ class User:
         self.git_path = ''
         self.last_name = ''
         self.firma = ''
-        self.language = 'de'
+        self.language = ''
     def setFirstName(self,first_name:str):
         self.first_name = first_name
     def setLastName(self,last_name:str):
