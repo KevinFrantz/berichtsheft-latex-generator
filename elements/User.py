@@ -11,6 +11,7 @@ class User:
         self.last_name = ''
         self.firma = ''
         self.language = ''
+        self.count_start = 0
     def setFirstName(self,first_name:str):
         self.first_name = first_name
     def setLastName(self,last_name:str):
@@ -23,6 +24,8 @@ class User:
         self.firma = firma
     def setLanguage(self,language:str):
         self.language = language
+    def setCountStart(self,count_start:int):
+        self.count_start = count_start
     @property
     def fullName(self):
         return self.first_name + " " + self.last_name

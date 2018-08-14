@@ -24,7 +24,7 @@ class Compiler:
         self.saveTemplates(document,'Meta')
     def generateLATEXRawFiles(self):
         document = ""
-        week_counter=0
+        week_counter = self.user.count_start
         for yearNumber, year in self.timeStructure.years.items():
             for weekNumer,week in year.weeks.items():
                 document += "\Titelzeile{{Juli}}{{{0}}}{{{1}}}".format(yearNumber,week_counter);
@@ -38,7 +38,7 @@ class Compiler:
                     document +='}';
                 document += '}';
                 document += str("\\Unterschrift");
-                week_counter = week_counter + 1
+                week_counter = int(week_counter) + 1
             self.saveTemplates(document,"Berichte/" + yearNumber);
     def generateMainFile(self):
         document = '\documentclass[ngerman]{scrreprt}'
