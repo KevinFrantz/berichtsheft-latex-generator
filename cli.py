@@ -1,23 +1,28 @@
 import sys
+import argparse
 from Core import Core
 from elements.User import User;
-user=User();
-if len(sys.argv) < 2:
-    ''' @hint The first argv element containes the path of the file.'''
-    print("CLI - BLG \nBerichtsheft LaTeX Generator\n@author kf\n@since 2018-03-05\n\nPlease insert the parameters ;)\n");
-    user.setGitPath(input("Please type in the path of the git-repository:"))
-    user.setGitName(input("Please insert the name of the git-author which should be used:"))
-    user.setFirstName(input("Please insert your first name:"))
-    user.setLastName(input("Please insert your last name:"))
-    user.setFirma(input("Please insert the name of your company:"))
-else:
-    try:
-        user.setGitPath(sys.argv[1])
-        user.setGitName(sys.argv[2])
-        user.setFirstName(sys.argv[3])
-        user.setLastName(sys.argv[4])
-        user.setFirma(sys.argv[5])
-    except IndexError:
-        print("You didn't pass all needed parameters :( \nPlease try again :) :) :)")
-core=Core(user)
-core.routine()
+class Main(object):
+    def __init__(self):
+        self.parser()
+        self.setUser()
+        self.core()
+    def core(self):
+        core=Core(self.user)
+        core.routine()
+    def setUser(self)->User:
+        self.user=User();
+        self.user.setGitPath(self.args.path)
+        self.user.setGitName(self.args.user)
+        self.user.setFirstName(self.args.first_name)
+        self.user.setLastName(self.args.last_name)
+        self.user.setFirma(self.args.company)
+    def parser(self):
+        parser = argparse.ArgumentParser(description='Generates reports based on a git repository')
+        parser.add_argument('--path', help='The path to the git repository')
+        parser.add_argument('--user', help='The git user')
+        parser.add_argument('--first-name', help='The first name of the user')
+        parser.add_argument('--last-name', help='The last name of the user')
+        parser.add_argument('--company', help='The company')
+        self.args = parser.parse_args()
+Main()
