@@ -17,8 +17,9 @@ class Core:
         self.exportToCSV()
         print("Transfers the CSV to a commit list...")
         self.createCommitList()
-        print("Translates commits...")
-        #self.pipeThroughTranslationAPI();
+        if(self.user.language!=''):
+            print("Translates commits...")
+            self.pipeThroughTranslationAPI();
         print("Creates the commit time structure... ")
         self.orderTimeStructure()
         print("\n\n\n Commits Time Structure:\n\n")
