@@ -11,7 +11,13 @@ class Filter(object):
             commit.setMessage(self.escape(commit.message))
     def escape(self,text):
         words = {
-            'refs #':'ticket',
+            'refs #':'ticket ',
+            '\:\)':'',
+            '\;\)':'',
+            '\<\/':'',
+            '\>':'',
+            '\{\%':'',
+            '\%\}':'',
         }
         for word in words.keys():
             text = re.sub(word,words[word],text)
