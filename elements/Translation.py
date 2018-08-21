@@ -10,7 +10,6 @@ class Translation(object):
         print("Finished translation.")
     def pipeThroughTranslationAPI(self):
         self.iterativ()
-        self.setTranslation(translations)
     def bulk(self):
         for commit in self.commit_list:
             print("Add commit \"{0}\" to bulk...".format(commit.message))
@@ -19,6 +18,7 @@ class Translation(object):
         print("Translate bulk...")
         translation = Translator()
         translations = translation.translate(bulk, dest=self.language,src='en')
+        self.setTranslation(translations)
     def iterativ(self):
         for commit in self.commit_list:
             translation = Translator()
@@ -29,6 +29,5 @@ class Translation(object):
         count = 0
         for translated_commit in translations:
             print("Set translation \"{0}\"".format(translated_commit))
-            print(self.commit_list[count])
             self.commit_list[count].setMessage(translated_commit.text)
             count = count + 1
