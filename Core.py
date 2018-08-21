@@ -4,8 +4,9 @@ import subprocess
 from elements.latex import Compiler
 from elements.Commit import Commit
 from elements.TimeStructure import TimeStructure
+from elements.Filter import Filter
+from elements.Translation import Translation
 import datetime
-from googletrans import Translator
 class Core:
     def __init__(self,user):
         self.user           = user
@@ -17,9 +18,10 @@ class Core:
         self.exportToCSV()
         print("Transfers the CSV to a commit list...")
         self.createCommitList()
+        self.filter()
         if(self.user.language!=''):
             print("Translates commits...")
-            self.pipeThroughTranslationAPI();
+            self.translate()
         print("Creates the commit time structure... ")
         self.orderTimeStructure()
         print("\n\n\n Commits Time Structure:\n\n")
@@ -53,9 +55,11 @@ class Core:
                     print("Tag {0}".format(day.getWeekday()));
                     for commit in day.commits:
                         print("- {0}".format(commit.message));
-    def pipeThroughTranslationAPI(self):
-        for commit in self.commit_list:
-            print("Commit \"{0}\" gets translated...".format(commit.message))
-            translation = Translator()
-            translation = translation.translate(commit.message, dest=self.user.language,src='en')
-            commit.message = translation.text
+    def filter(self):
+        print("Filtering commits...")
+        filter_modul = Filter(self.commit_list)
+        filter_modul.routine();
+    def translate(self):
+        print("Translate commits...")
+        translate_modul = Translation(self.commit_list,self.user.language)
+        translate_modul.routine();
