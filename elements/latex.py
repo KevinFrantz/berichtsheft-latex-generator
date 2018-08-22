@@ -27,7 +27,7 @@ class Compiler:
         week_counter = self.user.count_start
         for yearNumber, year in self.timeStructure.years.items():
             for weekNumer,week in year.weeks.items():
-                document += "\Titelzeile{{Juli}}{{{0}}}{{{1}}}".format(yearNumber,week_counter);
+                document += "\Titelzeile{{{0}}}{{{1}}}{{{2}}}{{{3}}}".format(week.getMondayDatetime(),week.getFridayDatetime(),yearNumber,week_counter);
                 document += '\Woche{';
                 for dayNumber,day in week.days.items():
                     document += '\Tag{{{0}}}{{'.format(day.getWeekdayString())
