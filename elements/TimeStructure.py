@@ -33,13 +33,13 @@ class Day(TimeStructureElement):
         return self.datetime.weekday();
     def getWeekdayString(self):
         return {
-            0:'Monday',
-            1:'Thuesday',
-            2:'Wednesday',
-            3:'Thursday',
-            4:'Frieday',
-            5:'Saturday',
-            6:'Sunday'
+            0:'Montag',
+            1:'Dienstag',
+            2:'Mittwoch',
+            3:'Donnerstag',
+            4:'Freitag',
+            5:'Samstag',
+            6:'Sonntag'
         }[self.getWeekday()]
     def sort(self):
         pass
