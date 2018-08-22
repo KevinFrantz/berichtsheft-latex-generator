@@ -1,34 +1,33 @@
 from datetime import timedelta
 from abc import ABC, abstractmethod
-
+from .Commit import Commit
 class TimeStructureElement(ABC):
     def __init__(self,datetime):
         self.datetime = datetime;
-        #self.unadded_commits = []
     @abstractmethod
-    def addCommit(self,commit):
+    def addCommit(self,commit:Commit):
         #This method is responsible
         pass
-    #def addUnaddedCommit(self,commit):
-    #    self.unadded_commits.append(commit)
-    #@abstractmethod
-    #def getAllUnaddedCommits(self):
-    #    pass
+    @abstractmethod
+    def getAllUnaddedCommits(self):
+        pass
     @abstractmethod
     def sort(self):
         pass
+
 #A day containes multiple commits
 class Day(TimeStructureElement):
     def __init__(self,datetime):
         self.commits = [];
+        self.unadded_commits = [];
         super().__init__(datetime);
-    def addCommit(self,commit):
+    def addCommit(self,commit:Commit):
         if len(self.commits) < 5:
             print("Add commit '{0}' to weekday {1}...".format(commit.message,self.getWeekday()));
             self.commits.append(commit)
         else:
             print("Commit '{0}' was not added to weekday {1} because the day containes allready more then 5 commits!".format(commit.message,self.getWeekday()));
-            #self.addUnaddedCommit(commit)
+            self.addUnaddedCommit(commit)
     def getWeekday(self):
         return self.datetime.weekday();
     def getWeekdayString(self):
@@ -43,12 +42,17 @@ class Day(TimeStructureElement):
         }[self.getWeekday()]
     def sort(self):
         pass
+    def addUnaddedCommit(self,commit:Commit):
+        self.unadded_commits.append(commit)
+    def getAllUnaddedCommits(self):
+        return self.unadded_commits
+
 #A week contines multiple days
 class Week(TimeStructureElement):
     def __init__(self,datetime):
         self.days = {};
         super().__init__(datetime);
-    def addCommit(self,commit):
+    def addCommit(self,commit:Commit):
         print("Add commit '{0}' to week {1}...".format(commit.message,self.getCalenderWeek()));
         dayNumber = commit.datetime.weekday();
         if dayNumber not in self.days:
@@ -66,13 +70,18 @@ class Week(TimeStructureElement):
             tmp_dictionary[key] = self.days[key]
             tmp_dictionary[key].sort()
         self.days = tmp_dictionary;
+    def getAllUnaddedCommits(self):
+        unadded_commits = [];
+        for day in self.days:
+            unadded_commits.update(day.getAllUnaddedCommits())
+        return self.unadded_commits
 
 #A year containes out of different weeks
 class Year(TimeStructureElement):
     def __init__(self,datetime):
         self.weeks = {};
         super().__init__(datetime);
-    def addCommit(self,commit):
+    def addCommit(self,commit:Commit):
         print("Add commit '{0}' to  year {1}...".format(commit.message,self.getYear()));
         weeknumber = commit.datetime.strftime('%W');
         if weeknumber not in self.weeks:
@@ -86,12 +95,17 @@ class Year(TimeStructureElement):
             tmp_dictionary[key] = self.weeks[key]
             tmp_dictionary[key].sort()
         self.weeks = tmp_dictionary;
+    def getAllUnaddedCommits(self):
+        unadded_commits = [];
+        for week in self.weeks:
+            unadded_commits.update(week.getAllUnaddedCommits())
+        return self.unadded_commits
 
 #This class represents the time structure of the commits:
 class TimeStructure:
     def __init__(self):
         self.years = {};
-    def addCommit(self,commit):
+    def addCommit(self,commit:Commit):
         print("Add commit '{0}' to timeStructure...".format(commit.message));
         yearNumber = commit.datetime.strftime('%Y');
         if yearNumber not in self.years:
@@ -103,3 +117,8 @@ class TimeStructure:
             tmp_dictionary[key] = self.years[key]
             tmp_dictionary[key].sort()
         self.years = tmp_dictionary;
+    def getAllUnaddedCommits(self):
+        unadded_commits = [];
+        for year in self.years:
+            unadded_commits.update(year.getAllUnaddedCommits())
+        return self.unadded_commits
