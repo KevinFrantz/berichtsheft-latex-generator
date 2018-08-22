@@ -54,7 +54,7 @@ class Core:
         count_datetime = self.timeStructure.getOldestCommit().datetime
         while(self.timeStructure.getOldestCommit().datetime<self.user.random_fill_up_datetime):
             count_datetime = count_datetime + datetime.timedelta(days=1)
-            if count_datetime not in [5,6]:
+            if count_datetime.weekday() not in [5,6]:
                 day_commit_count=0
                 while(day_commit_count<5):
                     commit = self.timeStructure.getAllUnaddedCommits()[unadded_commits_count]
