@@ -24,6 +24,9 @@ class Core:
             self.translate()
         print("Creates the commit time structure... ")
         self.orderTimeStructure()
+        if(self.user.random_fill_up_datetime):
+            print("File up dates till {0} ...".format(self.user.random_fill_up_datetime.strftime("%Y-%m-%d")))
+            self.randomFillUpTimeStructure();
         print("\n\n\n Commits Time Structure:\n\n")
         self.printPreview()
         print("Initialize LaTeX Compiler...")
@@ -46,6 +49,19 @@ class Core:
         for commit in self.commit_list:
             self.timeStructure.addCommit(commit);
         self.timeStructure.sort()
+    def randomFillUpTimeStructure(self):
+        unadded_commits_count = 0;
+        count_datetime = self.timeStructure.getOldestCommit().datetime
+        while(self.timeStructure.getOldestCommit().datetime<self.user.random_fill_up_datetime):
+            count_datetime = count_datetime + datetime.timedelta(days=1)
+            if count_datetime not in [5,6]:
+                day_commit_count=0
+                while(day_commit_count<5):
+                    commit = self.timeStructure.getAllUnaddedCommits()[unadded_commits_count]
+                    commit.setDateTime(count_datetime)
+                    self.timeStructure.addCommit(commit)
+                    unadded_commits_count = unadded_commits_count + 1
+                    day_commit_count = day_commit_count + 1
     def printPreview(self):
         for yearNumber, year in self.timeStructure.years.items():
             print("Jahr {0} ".format(year.getYear()));

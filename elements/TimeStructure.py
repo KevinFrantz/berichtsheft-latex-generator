@@ -6,7 +6,6 @@ class TimeStructureElement(ABC):
         self.datetime = datetime;
     @abstractmethod
     def addCommit(self,commit:Commit):
-        #This method is responsible
         pass
     @abstractmethod
     def getAllUnaddedCommits(self):
@@ -72,9 +71,9 @@ class Week(TimeStructureElement):
         self.days = tmp_dictionary;
     def getAllUnaddedCommits(self):
         unadded_commits = [];
-        for day in self.days:
-            unadded_commits.update(day.getAllUnaddedCommits())
-        return self.unadded_commits
+        for day in self.days.items():
+            unadded_commits = unadded_commits + day[1].getAllUnaddedCommits()
+        return unadded_commits
 
 #A year containes out of different weeks
 class Year(TimeStructureElement):
@@ -97,9 +96,9 @@ class Year(TimeStructureElement):
         self.weeks = tmp_dictionary;
     def getAllUnaddedCommits(self):
         unadded_commits = [];
-        for week in self.weeks:
-            unadded_commits.update(week.getAllUnaddedCommits())
-        return self.unadded_commits
+        for week in self.weeks.items():
+            unadded_commits = unadded_commits + week[1].getAllUnaddedCommits()
+        return unadded_commits
 
 #This class represents the time structure of the commits:
 class TimeStructure:
@@ -119,6 +118,12 @@ class TimeStructure:
         self.years = tmp_dictionary;
     def getAllUnaddedCommits(self):
         unadded_commits = [];
-        for year in self.years:
-            unadded_commits.update(year.getAllUnaddedCommits())
-        return self.unadded_commits
+        for year in self.years.items():
+            unadded_commits = unadded_commits + year[1].getAllUnaddedCommits()
+        return unadded_commits
+    def getOldestCommit(self)->Commit:
+        year = self.years[list(self.years)[-1]]
+        week = year.weeks[list(year.weeks)[-1]]
+        day = week.days[list(week.days)[-1]]
+        commit = day.commits[-1]
+        return commit;

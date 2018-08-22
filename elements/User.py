@@ -29,7 +29,9 @@ class User:
     def setCountStart(self,count_start:int):
         self.count_start = count_start
     def setRandomFileUp(self,random_fill_up:str):
-        if random_fill_up != '':
+        if random_fill_up == '':
+            self.random_fill_up_datetime = False
+        else:
             self.random_fill_up_datetime = datetime.strptime(random_fill_up, '%Y-%m-%d')
     @property
     def fullName(self):
