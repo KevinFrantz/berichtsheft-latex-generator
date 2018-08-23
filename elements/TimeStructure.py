@@ -122,8 +122,12 @@ class TimeStructure:
             unadded_commits = unadded_commits + year[1].getAllUnaddedCommits()
         return unadded_commits
     def getOldestCommit(self)->Commit:
-        year = self.years[list(self.years)[-1]]
-        week = year.weeks[list(year.weeks)[-1]]
-        day = week.days[list(week.days)[-1]]
-        commit = day.commits[-1]
+        return self.getCommitByIndex(-1)
+    def getFirstCommit(self)->Commit:
+        return self.getCommitByIndex(0)
+    def getCommitByIndex(self,index:int)->Commit:
+        year = self.years[list(self.years)[index]]
+        week = year.weeks[list(year.weeks)[index]]
+        day = week.days[list(week.days)[index]]
+        commit = day.commits[index]
         return commit;
