@@ -37,7 +37,7 @@ class Compiler:
                     document += '\\end{itemize}'
                     document +='}';
                 document += '}';
-                document += str("\\Unterschrift");
+                document += str('\\Unterschrift{{{0}}}'.format(week.getFridayDatetime()));
                 week_counter = int(week_counter) + 1
             self.saveTemplates(document,"Berichte/" + yearNumber);
     def generateMainFile(self):
