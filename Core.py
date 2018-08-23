@@ -6,6 +6,7 @@ from elements.Commit import Commit
 from elements.TimeStructure import TimeStructure
 from elements.Filter import Filter
 from elements.Translation import Translation
+from elements.RandomFillUp import RandomFillUp
 import datetime
 class Core:
     def __init__(self,user):
@@ -50,18 +51,8 @@ class Core:
             self.timeStructure.addCommit(commit);
         self.timeStructure.sort()
     def randomFillUpTimeStructure(self):
-        unadded_commits_count = 0;
-        count_datetime = self.timeStructure.getOldestCommit().datetime
-        while(self.timeStructure.getOldestCommit().datetime<self.user.random_fill_up_datetime):
-            count_datetime = count_datetime + datetime.timedelta(days=1)
-            if count_datetime.weekday() not in [5,6]:
-                day_commit_count=0
-                while(day_commit_count<5):
-                    commit = self.timeStructure.getAllUnaddedCommits()[unadded_commits_count]
-                    commit.setDateTime(count_datetime)
-                    self.timeStructure.addCommit(commit)
-                    unadded_commits_count = unadded_commits_count + 1
-                    day_commit_count = day_commit_count + 1
+        randomFillUp = RandomFillUp(self.timeStructure,self.user)
+        randomFillUp.fillUpFromLastCommit()
     def printPreview(self):
         for yearNumber, year in self.timeStructure.years.items():
             print("Jahr {0} ".format(year.getYear()));
