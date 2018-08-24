@@ -15,21 +15,17 @@ class Core:
         self.commit_list   = []
         self.timeStructure  = TimeStructure()
     def routine(self):
-        print("Export commits to CSV...")
         self.exportToCSV()
-        print("Transfers the CSV to a commit list...")
         self.createCommitList()
         self.filter()
         if(self.user.language!=''):
-            print("Translates commits...")
             self.translate()
-        print("Creates the commit time structure... ")
         self.orderTimeStructure()
         if(self.user.random_fill_up_datetime):
-            print("File up dates till {0} ...".format(self.user.random_fill_up_datetime.strftime("%Y-%m-%d")))
             self.randomFillUpTimeStructure();
-        print("\n\n\n Commits Time Structure:\n\n")
         self.printPreview()
+        self.compile()
+    def compile(self):
         print("Initialize LaTeX Compiler...")
         compiler = Compiler(self)
         print("Start compiling routine...")
@@ -39,21 +35,26 @@ class Core:
             print("\nATTENTION: The compiler returned a non-zero exit status.\nMay this is a problem ¯\_(ツ)_/¯\n\n")
         print("The compiling process finished •ᴗ• ")
     def exportToCSV(self):
+        print("Export commits to CSV...")
         self.csvGitLog = subprocess.check_output(["git","log",'--pretty=format:%ct,%s','--author={0}'.format(self.user.git_name)],cwd=self.user.git_path).decode("utf-8");
     def createCommitList(self):
+        print("Transfers the CSV to a commit list...")
         lines = self.csvGitLog.split("\n");
         for line in lines:
             lineArray   = line.split(",");
             lineCommit  = Commit(lineArray[1],datetime.datetime.fromtimestamp(int(lineArray[0])));
             self.commit_list.append(lineCommit)
     def orderTimeStructure(self):
+        print("Creates the commit time structure... ")
         for commit in self.commit_list:
             self.timeStructure.addCommit(commit);
         self.timeStructure.sort()
     def randomFillUpTimeStructure(self):
+        print("File up dates till {0} ...".format(self.user.random_fill_up_datetime.strftime("%Y-%m-%d")))
         randomFillUp = RandomFillUp(self.timeStructure,self.user)
         randomFillUp.fillUpFromLastCommit()
     def printPreview(self):
+        print("\n\n\n Preview:\n\n")
         for yearNumber, year in self.timeStructure.years.items():
             print("Jahr {0} ".format(year.getYear()));
             for weekNumer,week in year.weeks.items():

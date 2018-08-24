@@ -23,9 +23,9 @@ class Compiler:
         document += self.newCommand('Firma',self.user.firma)
         self.saveTemplates(document,'Meta')
     def generateLATEXRawFiles(self):
-        document = ""
         week_counter = self.user.count_start
         for yearNumber, year in self.timeStructure.years.items():
+            document = ""
             for weekNumer,week in year.weeks.items():
                 document += "\Titelzeile{{{0}}}{{{1}}}{{{2}}}{{{3}}}".format(week.getMondayDatetime(),week.getFridayDatetime(),yearNumber,week_counter);
                 document += '\Woche{';
@@ -39,7 +39,7 @@ class Compiler:
                 document += '}';
                 document += str('\\Unterschrift{{{0}}}'.format(week.getFridayDatetime()));
                 week_counter = int(week_counter) + 1
-            self.saveTemplates(document,"Berichte/" + yearNumber);
+            self.saveTemplates(document,"Berichte/" + yearNumber)
     def generateMainFile(self):
         document = '\documentclass[ngerman]{scrreprt}'
         document += '\input{Packages}'
