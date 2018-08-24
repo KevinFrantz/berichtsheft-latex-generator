@@ -14,6 +14,7 @@ class User:
         self.language = ''
         self.count_start = 0
         self.random_fill_up_datetime = False;
+        self.random_fill_up_from_datetime = False;
     def setFirstName(self,first_name:str):
         self.first_name = first_name
     def setLastName(self,last_name:str):
@@ -33,6 +34,11 @@ class User:
             self.random_fill_up_datetime = False
         else:
             self.random_fill_up_datetime = datetime.strptime(random_fill_up, '%Y-%m-%d')
+    def setRandomFileUpFrom(self,random_fill_up:str):
+        if random_fill_up == '':
+            self.random_fill_up_from_datetime = False
+        else:
+            self.random_fill_up_from_datetime = datetime.strptime(random_fill_up, '%Y-%m-%d')
     @property
     def fullName(self):
         return self.first_name + " " + self.last_name

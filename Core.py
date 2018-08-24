@@ -52,7 +52,7 @@ class Core:
     def randomFillUpTimeStructure(self):
         print("File up dates till {0} ...".format(self.user.random_fill_up_datetime.strftime("%Y-%m-%d")))
         randomFillUp = RandomFillUp(self.timeStructure,self.user)
-        randomFillUp.fillUpFromLastCommit()
+        randomFillUp.fillUp()
     def printPreview(self):
         print("\n\n\n Preview:\n\n")
         for yearNumber, year in self.timeStructure.years.items():
