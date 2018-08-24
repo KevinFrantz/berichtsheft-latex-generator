@@ -1,13 +1,16 @@
 # @author kf
 # @since  2018-03-14
 import subprocess
+import pathlib
+import datetime
 from elements.latex import Compiler
 from elements.Commit import Commit
 from elements.TimeStructure import TimeStructure
 from elements.Filter import Filter
 from elements.Translation import Translation
 from elements.RandomFillUp import RandomFillUp
-import datetime
+from elements.Events import Events
+
 class Core:
     def __init__(self,user):
         self.user           = user
@@ -21,6 +24,8 @@ class Core:
         if(self.user.language!=''):
             self.translate()
         self.orderTimeStructure()
+        if pathlib.Path("events.csv").exists():
+            self.events()
         if(self.user.random_fill_up_datetime):
             self.randomFillUpTimeStructure();
         self.printPreview()
@@ -70,4 +75,8 @@ class Core:
     def translate(self):
         print("Translate commits...")
         translate_modul = Translation(self.commit_list,self.user.language)
-        translate_modul.routine();
+        translate_modul.routine()
+    def events(self):
+        print("Set event commits...")
+        events = Events(self.timeStructure)
+        events.setCommits()

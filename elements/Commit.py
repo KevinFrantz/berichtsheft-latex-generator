@@ -3,7 +3,7 @@ class Commit:
     datetime;
     message  = '';
     origin = ''
-    def __init__(self,message:str,datetime):
+    def __init__(self,message:str,datetime:datetime):
         self.origin = message
         self.setMessage(message)
         self.datetime = datetime
