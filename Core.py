@@ -23,9 +23,9 @@ class Core:
         self.filter()
         if(self.user.language!=''):
             self.translate()
-        self.orderTimeStructure()
         if pathlib.Path("events.csv").exists():
             self.events()
+        self.orderTimeStructure()
         if(self.user.random_fill_up_datetime):
             self.randomFillUpTimeStructure();
         self.printPreview()
