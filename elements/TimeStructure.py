@@ -21,7 +21,7 @@ class Day(TimeStructureElement):
         self.unadded_commits = [];
         super().__init__(datetime);
     def addCommit(self,commit:Commit):
-        if len(self.commits) < 5:
+        if len(self.commits) < 5 and not (len(self.commits)>0 and self.commits[0].dayLock):
             print("Add commit '{0}' to weekday {1}...".format(commit.message,self.getWeekday()));
             self.commits.append(commit)
         else:

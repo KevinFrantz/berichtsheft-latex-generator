@@ -18,6 +18,6 @@ class Events(object):
             if date_count.weekday() not in [5,6]:
                 self.__setCommit(date_count,message)
     def __setCommit(self,datetime,message:str):
-        self.timeStructure.addCommit(
-            Commit(message,datetime)
-        )
+        commit = Commit(message,datetime)
+        commit.setDayLock()
+        self.timeStructure.addCommit(commit)
