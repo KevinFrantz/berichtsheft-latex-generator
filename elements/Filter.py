@@ -19,6 +19,8 @@ class Filter(object):
             '\{\%':'',
             '\%\}':'',
             '\-\.\-':'',
+            'Dirty':'',
+            'stupid':'',
         }
         for word in words.keys():
             text = re.sub(word,words[word],text)
