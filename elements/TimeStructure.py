@@ -19,16 +19,20 @@ class Day(TimeStructureElement):
     def __init__(self,datetime):
         self.commits = [];
         self.unadded_commits = [];
+        self.messages = []
         super().__init__(datetime);
     def addCommit(self,commit:Commit):
-        if len(self.commits) < 5 and not (len(self.commits)>0 and self.commits[0].dayLock):
+        if commit.message in self.messages:
+            print("Commit '{0}' was not added to weekday {1} because the day containes allready a same message!".format(commit.message,self.getWeekday()))
+        elif len(self.commits) < 5 and not (len(self.commits)>0 and self.commits[0].dayLock):
             print("Add commit '{0}' to weekday {1}...".format(commit.message,self.getWeekday()));
             self.commits.append(commit)
+            self.messages.append(commit.message)
         elif not commit.dayLock:
-            print("Commit '{0}' was not added to weekday {1} because the day containes allready more then 5 commits!".format(commit.message,self.getWeekday()));
+            print("Commit '{0}' was not added to weekday {1} because the day containes allready more then 5 commits!".format(commit.message,self.getWeekday()))
             self.addUnaddedCommit(commit)
         else:
-            print("Day commit '{0}' was not added to weekday {1} because the day containes allready commits!".format(commit.message,self.getWeekday()));
+            print("Day commit '{0}' was not added to weekday {1} because the day containes allready commits!".format(commit.message,self.getWeekday()))
     def getWeekday(self):
         return self.datetime.weekday();
     def getWeekdayString(self):
